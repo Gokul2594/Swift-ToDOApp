@@ -9,7 +9,18 @@
 import UIKit
 
 class ListViewController: UIViewController {
-    var data = ["Goku", "Vegeta", "Jiren", "Broly", "Whis", "Beerus"]
+    var data:[ToDoItem]
+    
+    init() {
+        let item:ToDoItem = ToDoItem(description: "Fake Data")
+        self.data = Array(repeating: item, count: 10)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Cannot be created from storyboard")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(titleLabel)
@@ -67,7 +78,7 @@ extension ListViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row]
+        cell.textLabel?.text = data[indexPath.row].description
         return cell
     }
 }
