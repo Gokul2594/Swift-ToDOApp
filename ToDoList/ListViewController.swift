@@ -51,7 +51,7 @@ class ListViewController: UIViewController {
         
         view.dataSource = self
         view.delegate = self
-        view.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        view.register(ToDoItemCell.self, forCellReuseIdentifier: NSStringFromClass(ToDoItemCell.self))
         return view
     }()
     
@@ -77,8 +77,12 @@ extension ListViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row].description
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: NSStringFromClass(ToDoItemCell.self),
+            for: indexPath
+        ) as! ToDoItemCell
+        
+        cell.toDoItem = data[indexPath.row]
         return cell
     }
 }

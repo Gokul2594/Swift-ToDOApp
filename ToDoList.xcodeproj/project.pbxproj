@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		98002E0D22AC5CD300386F6B /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98002E0C22AC5CD300386F6B /* ToDoItem.swift */; };
+		98002E0F22AC6AAA00386F6B /* ToDoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98002E0E22AC6AAA00386F6B /* ToDoItemCell.swift */; };
 		98FCDD0522AC09F10075991C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FCDD0422AC09F10075991C /* AppDelegate.swift */; };
 		98FCDD0722AC09F10075991C /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FCDD0622AC09F10075991C /* ListViewController.swift */; };
 		98FCDD0C22AC09F20075991C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98FCDD0B22AC09F20075991C /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		98002E0C22AC5CD300386F6B /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
+		98002E0E22AC6AAA00386F6B /* ToDoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemCell.swift; sourceTree = "<group>"; };
 		98FCDD0122AC09F10075991C /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98FCDD0422AC09F10075991C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98FCDD0622AC09F10075991C /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				98FCDD0D22AC09F20075991C /* LaunchScreen.storyboard */,
 				98FCDD1022AC09F20075991C /* Info.plist */,
 				98002E0C22AC5CD300386F6B /* ToDoItem.swift */,
+				98002E0E22AC6AAA00386F6B /* ToDoItemCell.swift */,
 			);
 			path = ToDoList;
 			sourceTree = "<group>";
@@ -136,6 +139,7 @@
 			files = (
 				98FCDD0722AC09F10075991C /* ListViewController.swift in Sources */,
 				98FCDD0522AC09F10075991C /* AppDelegate.swift in Sources */,
+				98002E0F22AC6AAA00386F6B /* ToDoItemCell.swift in Sources */,
 				98002E0D22AC5CD300386F6B /* ToDoItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
