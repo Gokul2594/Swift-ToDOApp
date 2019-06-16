@@ -85,5 +85,12 @@ extension ListViewController : UITableViewDataSource {
         cell.toDoItem = data[indexPath.row]
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let item = data[indexPath.row]
+        let detailView: DetailViewController = DetailViewController(item: item)
+        self.present(detailView, animated: false, completion: nil)
+    }
 }
 
