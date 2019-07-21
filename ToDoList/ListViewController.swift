@@ -9,11 +9,11 @@
 import UIKit
 
 class ListViewController: UIViewController {
-    var data:[ToDoItem]
+    
+    var listManager: ToDoListManager
     
     init() {
-        let item:ToDoItem = ToDoItem(description: "Fake Data")
-        self.data = Array(repeating: item, count: 10)
+        self.listManager = ToDoListManager()
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -25,6 +25,7 @@ class ListViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(titleLabel)
         view.addSubview(tableView)
+        view.addSubview(addButton)
         view.setNeedsUpdateConstraints()
     }
     
@@ -55,6 +56,43 @@ class ListViewController: UIViewController {
         return view
     }()
     
+    lazy var addButton: UIButton! = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setTitle("Add", for: .normal)
+        view.setTitleColor(.white, for: .normal)
+        view.backgroundColor = .black
+        view.addTarget(self, action: #selector(onAddClicked), for: .touchDown)
+        return view
+
+    }()
+    
+    @objc func onAddClicked() {
+        let dialog = UIAlertController(
+            title: "Add Item",
+            message: "",
+            preferredStyle: UIAlertController.Style.alert)
+        
+        dialog.addTextField { (textField) in
+            textField.placeholder = "What do you need to do?"
+        }
+        
+        let cancelButton = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
+        dialog.addAction(cancelButton)
+        let saveButton = UIAlertAction(title: "Save", style: UIAlertAction.Style.default, handler: {(action) in
+            if let itemField = dialog.textFields?[0] {
+                
+                if let item = itemField.text {
+                    let toDoItem = ToDoItem(description: item)
+                    self.listManager.addItem(item: toDoItem)
+                    self.tableView.reloadData()
+                }
+            }
+        })
+        dialog.addAction(saveButton)
+        present(dialog, animated: true, completion: nil)
+    }
+    
     override func updateViewConstraints() {
         let margins = view.layoutMarginsGuide
         titleLabel.topAnchor.constraint(equalTo: margins.topAnchor, constant: 20).isActive = true
@@ -64,6 +102,9 @@ class ListViewController: UIViewController {
         tableView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        
+        addButton.topAnchor.constraint(equalTo: margins.topAnchor, constant: 20).isActive = true
+        addButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 5).isActive = true
         super.updateViewConstraints()
     }
 }
@@ -73,7 +114,7 @@ extension ListViewController : UITableViewDelegate {
 
 extension ListViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section : Int) -> Int {
-        return data.count
+        return listManager.count()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,13 +123,13 @@ extension ListViewController : UITableViewDataSource {
             for: indexPath
         ) as! ToDoItemCell
         
-        cell.toDoItem = data[indexPath.row]
+        cell.toDoItem = listManager.getItems()[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let item = data[indexPath.row]
+        let item = listManager.getItems()[indexPath.row]
         let detailView: DetailViewController = DetailViewController(item: item)
         self.present(detailView, animated: false, completion: nil)
     }
