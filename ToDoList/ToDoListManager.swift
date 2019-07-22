@@ -10,15 +10,14 @@ import Foundation
 
 class ToDoListManager {
     
-    var data: [ToDoItem]
+    let databaseHelper: DatabaseHelper
     
     init() {
-        let item:ToDoItem = ToDoItem(description: "Fake Data")
-        self.data = Array(repeating: item, count: 3)
+        databaseHelper = DatabaseHelper()
     }
     
     func getItems() -> [ToDoItem] {
-        return self.data
+        return self.databaseHelper.getItems() ?? [ToDoItem]()
     }
     
     func count() -> Int {
@@ -26,6 +25,11 @@ class ToDoListManager {
     }
     
     func addItem(item: ToDoItem) {
-        self.data.append(item)
+        self.databaseHelper.insertItems(item: item)
     }
+    
+    func updateItem(item: ToDoItem) {
+        self.databaseHelper.updateItem(item: item)
+    }
+    
 }

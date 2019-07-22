@@ -11,10 +11,11 @@ import UIKit
 class DetailViewController: UIViewController{
     
     var item: ToDoItem
+    var listManager: ToDoListManager
     
     init(item: ToDoItem){
         self.item = item
-        
+        listManager = ToDoListManager()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -25,16 +26,16 @@ class DetailViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        descriptionLabel.text = item.description
-        dateCreatedLabel.text = item.dateCreatedAsString()
-        completedSwitch.isOn = item.completed
-        dateCompletedLabel.text = "Yet to complete"
-        
         view.addSubview(descriptionLabel)
         view.addSubview(dateCreatedLabel)
         view.addSubview(completedSwitch)
         view.addSubview(backButton)
         view.addSubview(dateCompletedLabel)
+        
+        descriptionLabel.text = item.description
+        dateCreatedLabel.text = item.dateCreatedAsString()
+        completedSwitch.isOn = item.completed
+        dateCompletedLabel.text = item.dateUpdatedAsString()
         
         view.setNeedsUpdateConstraints()
     }
@@ -64,7 +65,7 @@ class DetailViewController: UIViewController{
     lazy var completedSwitch: UISwitch! = {
         let view = UISwitch()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.isOn = false
+        view.isOn = self.item.completed
         
         view.addTarget(self, action: #selector(updateCompletedDate), for: UIControl.Event.valueChanged)
         
@@ -73,13 +74,16 @@ class DetailViewController: UIViewController{
     
     @objc func updateCompletedDate(mySwitch: UISwitch){
         if(mySwitch.isOn){
-            let dateFormatter = DateFormatter()
-            let dateFormat = "MMM dd, YYYY - h:mm a"
-            dateFormatter.dateFormat = dateFormat
-            dateCompletedLabel.text = dateFormatter.string(from: Date())
+            self.item.completed = true
+            self.item.dateUpdated = Date()
+            listManager.updateItem(item: self.item)
+            dateCompletedLabel.text = self.item.dateUpdatedAsString()
         }
         else{
-            dateCompletedLabel.text = "Yet to complete"
+            self.item.completed = false
+            self.item.dateUpdated = Date()
+            listManager.updateItem(item: self.item)
+            dateCompletedLabel.text = self.item.dateUpdatedAsString()
         }
     }
     
@@ -100,7 +104,7 @@ class DetailViewController: UIViewController{
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .left
         view.font = view.font.withSize(20)
-        
+
         return view
     }()
     
@@ -120,7 +124,7 @@ class DetailViewController: UIViewController{
         dateCreatedLabel.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 10).isActive = true
         
         dateCompletedLabel.topAnchor.constraint(equalTo: dateCreatedLabel.bottomAnchor, constant: 10).isActive = true
-        
+
         dateCompletedLabel.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 10).isActive = true
         
         completedSwitch.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 30).isActive = true
